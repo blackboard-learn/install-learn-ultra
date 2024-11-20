@@ -1,0 +1,39 @@
+Download the files, Run the below commands one by one
+
+Prerequisite :
+	1. Create your Github account with Anthology email ID & raise necessary access for all the projects.
+	( Mostly this step is applicable only for new employees. You can ignore this step, if you already got access to those projects. )
+	2. If you already have access and added the ssh Key in GITHub, Open https://github.com/settings/ssh you can see the configure sso dropdown at the right of the SSH key click on it and authorize all the  repositories .
+
+Step 1
+	Note:
+	Open Terminal in your mac
+	run "git clone https://github.com/venkatt05/learn-install.git"
+	run  "./learn-install/pre.zsh"
+
+ 
+General Notes on Uninstallation :
+
+<!-- To uninstall postgres -->
+ sudo rm -rf /Library/PostgreSQL"
+
+ <!-- How to fix the below errror : -->
+ Not able to start postgres @12 using brew command "brew services start postgresql@12"
+Got the below error 
+"Error: Failure while executing; `/bin/launchctl bootstrap system /Library/LaunchDaemons/homebrew.mxcl.postgresql@12.plist` exited with 5. "
+
+sudo chown -R $(whoami) /usr/local/var/postgresql@12
+brew services stop postgresql@12
+brew services start postgresql@12
+
+If the postgres app is already installed 
+============================================
+Quit Postgres.app & drag it to the Trash
+(Optional) Delete the data directories (default location: ~/Library/Application Support/Postgres)
+(Optional) Delete preferences for Postgres.app by executing the following command:
+defaults delete com.postgresapp.Postgres2
+(Optional) Remove the $PATH config for the command line tools:
+sudo rm /etc/paths.d/postgresapp
+
+
+xcode-select --install
