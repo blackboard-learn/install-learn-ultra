@@ -75,14 +75,14 @@ install_corretto() {
 }
 
 installPostgres() {
-  echo -e "\e[33m# Install PostgreSQL 12\e[0m"
-  brew install postgresql@12
+  echo -e "\e[33m# Install PostgreSQL 16\e[0m"
+  brew install postgresql@16
 
-  echo -e "\e[33m# Add PostgreSQL 12 to PATH in .zshrc\e[0m"
-  echo '\nexport PATH="/opt/homebrew/opt/postgresql@12/bin:$PATH"' >> $HOME/.zshrc
+  echo -e "\e[33m# Add PostgreSQL 16 to PATH in .zshrc\e[0m"
+  echo '\nexport PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"' >> $HOME/.zshrc
 
-  echo -e "\e[33m# Set PGDATA for PostgreSQL 12 in .zshrc\e[0m"
-  echo '\nexport PGDATA=/opt/homebrew/var/postgresql@12' >> $HOME/.zshrc
+  echo -e "\e[33m# Set PGDATA for PostgreSQL 16 in .zshrc\e[0m"
+  echo '\nexport PGDATA=/opt/homebrew/var/postgresql@16' >> $HOME/.zshrc
 
   echo -e "\e[33m# Tap homebrew/services and homebrew/core\e[0m"
   brew tap homebrew/services
@@ -91,8 +91,8 @@ installPostgres() {
   echo -e "\e[33m# Source .zshrc to apply changes\e[0m"
   source ~/.zshrc
 
-  echo -e "\e[33m# Start PostgreSQL 12 as a service\e[0m"
-  brew services start postgresql@12
+  echo -e "\e[33m# Start PostgreSQL 16 as a service\e[0m"
+  brew services start postgresql@16
 
   echo -e "\e[33m# Source .zshrc again to ensure changes are applied\e[0m"
   source ~/.zshrc
@@ -102,7 +102,7 @@ createUserAndChangePassword() {
   source ~/.zshrc
 
   echo -e "\e[33m# Create superuser and createuser roles in PostgreSQL\e[0m"
-  sleep 1 # Most of the time it is failling to create user so  wait for a second before creating the user
+  sleep 1 # Most of the time it is failing to create user so wait for a second before creating the user
   createuser -s -r postgres
    if [ $? -eq 0 ]; then
     echo "User created successfully."
@@ -119,13 +119,13 @@ createUserAndChangePassword() {
 
 updateConfFiles() {
   echo -e "\e[33m# Update authentication method in pg_hba.conf\e[0m"
-  sed -i '' 's/trust/password/g' /opt/homebrew/var/postgresql@12/pg_hba.conf
+  sed -i '' 's/trust/password/g' /opt/homebrew/var/postgresql@16/pg_hba.conf
 
   echo -e "\e[33m# Update max_connections in postgresql.conf\e[0m"
-  sed -i '' 's/max_connections = 100/max_connections = 300/g' /opt/homebrew/var/postgresql@12/postgresql.conf
+  sed -i '' 's/max_connections = 100/max_connections = 300/g' /opt/homebrew/var/postgresql@16/postgresql.conf
 
-  echo -e "\e[33m# Restart PostgreSQL 12 service\e[0m"
-  brew services restart postgresql@12
+  echo -e "\e[33m# Restart PostgreSQL 16 service\e[0m"
+  brew services restart postgresql@16
 }
 
 setupPostgres() {
@@ -389,8 +389,8 @@ cloneUltraRouter() {
   # brew untap homebrew/nginx
   # brew untap denji/nginx
   brew tap openresty/brew
-  brew install geoip
-  brew install openresty
+  # brew install geoip
+  brew install --ignore-dependencies openresty
 }
 
 cloneProjects() {
@@ -415,7 +415,7 @@ setupZScalar() {
 START_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 echo "Script started at: $START_TIME"
 
-start || error "Failed to install homebrew"
+ start || error "Failed to install homebrew"
 
 if [ $? -eq 0 ];
 then
