@@ -390,7 +390,11 @@ cloneUltraRouter() {
   # brew untap denji/nginx
   brew tap openresty/brew
   # brew install geoip
-  brew install --ignore-dependencies openresty
+  brew install openresty || {
+  if grep -q "ERROR: failed to run command: sh ./configure --prefix=/opt/homebrew/Cellar/openresty" <<< "$(brew install openresty 2>&1)"; then
+    echo "Ignoring GeoIP error and proceeding..."
+  fi
+}
 }
 
 cloneProjects() {
