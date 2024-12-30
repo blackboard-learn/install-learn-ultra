@@ -147,6 +147,10 @@ fi
   # Get the current date and time
   current_datetime=$(date '+%Y-%m-%d %H:%M:%S')
 
-  echo "Date and Time: $current_datetime, Username: $username, Total duration: $total_minutes minutes"  
+  echo "Date and Time: $current_datetime, Username: $username, Total duration: $total_minutes minutes" >> ~/total_minutes.txt
+
+  git add total_minutes.txt
+  git commit -m "Add total duration for $username"
+  git push
 
   rm ~/pre_script_duration.txt ~/main_script_duration.txt ~/install_script_duration.txt ~/total_minutes.txt
