@@ -19,7 +19,7 @@ fi
 START_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 echo "Script started at: $START_TIME"
 
-chmod +x ~/learn-install/main.zsh
+chmod +x ~/install-learn-ultra/main.zsh
 
 # Define the file to store the inputs
 input_file="$HOME/learn_install_input.txt"
@@ -109,7 +109,7 @@ END_SEC=$(date -j -f "%Y-%m-%d %H:%M:%S" "$END_TIME" "+%s")
 DURATION=$(($END_SEC - $START_SEC))
 echo "$DURATION" > ~/pre_script_duration.txt
 
-~/learn-install/main.zsh "$password" "$userEmail" "$userName"
+~/install-learn-ultra/main.zsh "$password" "$userEmail" "$userName"
 else
   echo "Continuation aborted."
 fi

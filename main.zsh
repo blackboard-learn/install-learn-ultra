@@ -410,7 +410,7 @@ cloneProjects() {
 
 
 setupZScalar() {
-  cp -R ~/learn-install/zscaler-certs ~/work/zscaler-certs &&
+  cp -R ~/install-learn-ultra/zscaler-certs ~/work/zscaler-certs &&
   password="changeit"
   echo $password | sudo keytool -import -trustcacerts -alias zscaler_root_ca -file ~/work/zscaler-certs/ZscalerRootCA.cer -cacerts <<< "yes" &&
   export NODE_EXTRA_CA_CERTS=~/work/zscaler-certs/ZscalerRootCA.pem
@@ -441,6 +441,6 @@ END_SEC=$(date -j -f "%Y-%m-%d %H:%M:%S" "$END_TIME" "+%s")
 DURATION=$(($END_SEC - $START_SEC))
 echo "$DURATION" > ~/main_script_duration.txt
 
-~/learn-install/install.zsh
+~/install-learn-ultra/install.zsh
 
 
