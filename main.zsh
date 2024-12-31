@@ -195,7 +195,7 @@ setupGit() {
 
     # Configure system settings
     echo -e "\e[33mConfiguring system settings\e[0m"
-    echo "$password" | sudo -S sh -c 'echo "kern.maxfiles=65536
+    echo $password | sudo -S sh -c 'echo "kern.maxfiles=65536
     kern.maxfilesperproc=65536" > /etc/sysctl.conf' &&
 
     # Configure LaunchDaemons
