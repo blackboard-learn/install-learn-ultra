@@ -83,8 +83,9 @@ install_ultra_router() {
     if [ -d ultra-router ]; then
         cd ultra-router &&
         echo -e "\e[33m Downloading Docker Desktop App... \e[0m"
-        brew install --cask docker
-         echo -e "\e[33m Starting Ultra Router... \e[0m"
+        brew install --cask docker &&
+        open /Applications/Docker.app &&
+        echo -e "\e[33m Starting Ultra Router... \e[0m"
         yes '' | ./startDocker >> ~/install.log 2>&1 &
     fi
 
