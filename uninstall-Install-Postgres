@@ -1,0 +1,77 @@
+#!/bin/zsh
+
+uninstallPostgres12() {
+  echo -e "\e[33m# Uninstall PostgreSQL 12\e[0m"
+  brew services stop postgresql@12
+  brew uninstall postgresql@12
+
+  echo -e "\e[33m# Remove PostgreSQL 12 related directories\e[0m"
+  rm -rf /usr/local/var/postgresql@12
+  rm -rf /opt/homebrew/var/postgresql@12
+
+  echo -e "\e[33m# Remove PostgreSQL 12 configurations from .zshrc\e[0m"
+  sed -i '' '/postgresql@12/d' $HOME/.zshrc
+  sed -i '' '/PGDATA/d' $HOME/.zshrc
+
+  echo -e "\e[33m# Source .zshrc to apply changes\e[0m"
+  source ~/.zshrc
+}
+
+installPostgres16() {
+  echo -e "\e[33m# Install PostgreSQL 16\e[0m"
+  brew install postgresql@16
+
+  echo -e "\e[33m# Add PostgreSQL 16 to PATH in .zshrc\e[0m"
+  echo '\nexport PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"' >> $HOME/.zshrc
+
+  echo -e "\e[33m# Set PGDATA for PostgreSQL 16 in .zshrc\e[0m"
+  echo '\nexport PGDATA=/opt/homebrew/var/postgresql@16' >> $HOME/.zshrc
+
+  echo -e "\e[33m# Tap homebrew/services\e[0m"
+  brew tap homebrew/services
+
+  echo -e "\e[33m# Source .zshrc to apply changes\e[0m"
+  source ~/.zshrc
+
+  echo -e "\e[33m# Start PostgreSQL 16 as a service\e[0m"
+  brew services start postgresql@16
+
+  echo -e "\e[33m# Source .zshrc again to ensure changes are applied\e[0m"
+  source ~/.zshrc
+}
+
+createUserAndChangePassword() {
+  source ~/.zshrc
+
+  echo -e "\e[33m# Create superuser and createuser roles in PostgreSQL\e[0m"
+  sleep 1
+  createuser -s -r postgres
+  if [ $? -eq 0 ]; then
+    echo "User created successfully."
+  else
+    echo "Failed to create user. Retrying..."
+    sleep 1
+    source ~/.zshrc
+    createuser -s -r postgres
+  fi
+
+  echo -e "\e[33m# Set password for the 'postgres' user in PostgreSQL\e[0m"
+  psql -U postgres -c "alter user postgres PASSWORD 'postgres'"
+}
+
+updateConfFiles() {
+  echo -e "\e[33m# Update authentication method in pg_hba.conf\e[0m"
+  sed -i '' 's/trust/password/g' /opt/homebrew/var/postgresql@16/pg_hba.conf
+
+  echo -e "\e[33m# Update max_connections in postgresql.conf\e[0m"
+  sed -i '' 's/max_connections = 100/max_connections = 300/g' /opt/homebrew/var/postgresql@16/postgresql.conf
+
+  echo -e "\e[33m# Restart PostgreSQL 16 service\e[0m"
+  brew services restart postgresql@16
+}
+
+# Execute the functions
+uninstallPostgres12
+installPostgres16
+createUserAndChangePassword
+updateConfFiles
