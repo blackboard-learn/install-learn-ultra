@@ -84,9 +84,14 @@ install_ultra_router() {
         cd ultra-router &&
         echo -e "\e[33m Downloading Docker Desktop App... \e[0m"
         brew install --cask docker &&
-        open /Applications/Docker.app --args --skip-startup-wizard &&
+        open /Applications/Docker.app &&
+        echo -e "\a \a \a \a \a "
+        echo -e "\e[33m Docker desktop App is opened for you accept and skip for any input... \e[0m"
+        prompt_continue "After opening the docker press enter here to continue..."
+        if [ -z "$continue_key" ]; then
         echo -e "\e[33m Starting Ultra Router... \e[0m"
         yes '' | ./startDocker >> ~/install.log 2>&1 &
+        fi
     fi
 
 }
@@ -117,15 +122,11 @@ removeSudoTimerAndInputFile() {
 START_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 echo "Script started at: $START_TIME"
 
-# Check if the user pressed Enter (continue_key will be empty)
-if [ -z "$continue_key" ]; then
 install_Learn || error "Failed to install Learn"
 install_ultra_router || error "Failed to install Learn"
 install_ultra || error "Failed to install Ultra"
 removeSudoTimerAndInputFile || { error "Error: Failed to remove sudo timer."; exit 1; }
-else
-  echo "Install Learn aborted due to no input from the user."
-fi
+
 
  END_TIME=$(date +"%Y-%m-%d %H:%M:%S")
   echo "Script ended at: $END_TIME"

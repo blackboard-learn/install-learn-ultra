@@ -68,6 +68,8 @@ updateConfFiles() {
 
   echo -e "\e[33m# Restart PostgreSQL 16 service\e[0m"
   brew services restart postgresql@16
+
+  
 }
 
 # Execute the functions
