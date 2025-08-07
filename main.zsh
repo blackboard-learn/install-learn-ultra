@@ -42,12 +42,12 @@ error() {
 }
 
 install_corretto() {
-  # Check if Amazon Corretto 11 JDK is installed in the /Library/Java/JavaVirtualMachines directory
-  if [ -d "/Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk" ] || [ -d "/usr/local/Caskroom/corretto" ]; then
-    echo "\e[33m# Amazon Corretto 11 JDK is installed. Removing..."
-    echo $password | sudo -S rm -rf /Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk /usr/local/Caskroom/corretto
+  # Check if Amazon Corretto 21 JDK is installed in the /Library/Java/JavaVirtualMachines directory
+  if [ -d "/Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk" ] || [ -d "/usr/local/Caskroom/corretto" ]; then
+    echo "\e[33m# Amazon Corretto 21 JDK is installed. Removing..."
+    echo $password | sudo -S rm -rf /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk /usr/local/Caskroom/corretto
   else
-    echo "Amazon Corretto 11 JDK is not installed."
+    echo "Amazon Corretto 21 JDK is not installed."
   fi
 
   brew install cask
@@ -55,14 +55,14 @@ install_corretto() {
     echo "Failed to install Homebrew Cask."
     return 1
   fi
-  echo -e "\e[33m# Install Corretto 11\e[0m"
-  brew install --cask corretto@11 &&
+  echo -e "\e[33m# Install Corretto 21\e[0m"
+  brew install --cask corretto@21 &&
   if [ $? -ne 0 ]; then
-    echo "Failed to install Corretto 11."
+    echo "Failed to install Corretto 21."
     return 1
   fi
   echo -e "\e[33m# Add JAVA_HOME to .zshrc and source it\e[0m"
-  echo '\nexport JAVA_HOME=$(/usr/libexec/java_home -v 11)' >> ~/.zshrc &&
+  echo '\nexport JAVA_HOME=$(/usr/libexec/java_home -v 21)' >> ~/.zshrc &&
 
   source ~/.zshrc
 
@@ -313,9 +313,9 @@ cloneUltra() {
 
   source ~/.zshrc &&
 
-  nvm install lts/iron &&
+  nvm install lts/jod &&
 
-  nvm alias default lts/iron &&
+  nvm alias default lts/jod &&
 
   brew install yarn &&
 
