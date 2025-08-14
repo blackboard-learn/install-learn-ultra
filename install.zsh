@@ -96,6 +96,23 @@ install_ultra_router() {
 
 }
 
+generate_jfrog_token() {
+        echo -e "\e[33m jFrog app is opened for you in the default browser... \e[0m"
+        open "https://blackboard.jfrog.io/"
+        echo -e "\a \a \a \a \a "
+        prompt_continue "After generating Token from step 7 from the document, press enter here to continue..."
+        if [ -z "$continue_key" ]; then
+            echo "Enter your JFrog Token:"
+            read -s jfrog_token
+            echo "Enter your JFrog User ID:"
+            read jfrog_user_id
+
+            echo -e "\e[33m Setting up yarn config with your JFrog credentials... \e[0m"
+            yarn config set -H npmRegistries --json '{ "//blackboard.jfrog.io/artifactory/api/npm/ultra-bb-npm/": { "npmAuthIdent": "'$jfrog_user_id:$jfrog_token'", "npmAlwaysAuth": true } }'
+            echo -e "\e[32m JFrog credentials configured successfully! \e[0m"
+        fi
+}
+
 install_ultra() {
   echo $password |  sudo -S -v
   source $HOME/.zshrc &&
@@ -123,6 +140,7 @@ START_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 echo "Script started at: $START_TIME"
 
 install_Learn || error "Failed to install Learn"
+generate_jfrog_token || error "Failed to generate JFrog token"
 install_ultra_router || error "Failed to install Learn"
 install_ultra || error "Failed to install Ultra"
 removeSudoTimerAndInputFile || { error "Error: Failed to remove sudo timer."; exit 1; }
