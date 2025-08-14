@@ -140,8 +140,8 @@ START_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 echo "Script started at: $START_TIME"
 
 install_Learn || error "Failed to install Learn"
+install_ultra_router || error "Failed to install Ultra Router"
 generate_jfrog_token || error "Failed to generate JFrog token"
-install_ultra_router || error "Failed to install Learn"
 install_ultra || error "Failed to install Ultra"
 removeSudoTimerAndInputFile || { error "Error: Failed to remove sudo timer."; exit 1; }
 
