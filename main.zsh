@@ -285,6 +285,15 @@ cloneLearn() {
 
   touch $HOME/.gradle/gradle.properties &&
 
+  echo -e "\e[33m# Remove deprecated JVM options from gradle.git.properties if present\e[0m"
+  GRADLE_GIT_PROPS="$HOME/work/learn.util/users/$USER/gradle/gradle.git.properties"
+  if [ -f "$GRADLE_GIT_PROPS" ]; then
+    echo $password | sudo -S sed -i '' '/^[[:space:]]*-XX:+UseConcMarkSweepGC/d' "$GRADLE_GIT_PROPS"
+    echo $password | sudo -S sed -i '' '/^[[:space:]]*-Xverify:none/d' "$GRADLE_GIT_PROPS"
+    echo $password | sudo -S sed -i '' '/^[[:space:]]*-XX:+AggressiveOpts/d' "$GRADLE_GIT_PROPS"
+    echo $password | sudo -S sed -i '' '/^[[:space:]]*-XX:+CMSClassUnloadingEnabled/d' "$GRADLE_GIT_PROPS"
+  fi
+
   cd ~/work/learn.util &&
 
   mkdir -p $WORK_HOME/scripts/logs &&
