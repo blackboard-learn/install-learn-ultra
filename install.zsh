@@ -109,6 +109,7 @@ generate_jfrog_token() {
             read jfrog_user_id
 
             echo -e "\e[33m Setting up yarn config with your JFrog credentials... \e[0m"
+            cd $HOME/work/ultra &&
             yarn config set -H npmRegistries --json '{ "https://blackboard.jfrog.io/artifactory/api/npm/ultra-bb-npm/": { "npmAuthIdent": "'$jfrog_user_id:$jfrog_token'", "npmAlwaysAuth": true } }'
             echo -e "\e[32m JFrog credentials configured successfully! \e[0m"
         fi
