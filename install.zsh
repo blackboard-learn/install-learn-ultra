@@ -59,6 +59,7 @@ install_Learn() {
   cd $HOME/work &&
   if [ -d learn ]; then
     cd learn &&
+    npm install &&
     # echo -e "\a \a \a \a \a "
     # echo -e "\e[33m Go Back to the document and follow Step 6 \e[0m"
     # prompt_continue "After Turning off zscalar internet Security, please Press Enter to continue..."
@@ -108,7 +109,7 @@ generate_jfrog_token() {
             read jfrog_user_id
 
             echo -e "\e[33m Setting up yarn config with your JFrog credentials... \e[0m"
-            yarn config set -H npmRegistries --json '{ "//blackboard.jfrog.io/artifactory/api/npm/ultra-bb-npm/": { "npmAuthIdent": "'$jfrog_user_id:$jfrog_token'", "npmAlwaysAuth": true } }'
+            yarn config set -H npmRegistries --json '{ "https://blackboard.jfrog.io/artifactory/api/npm/ultra-bb-npm/": { "npmAuthIdent": "'$jfrog_user_id:$jfrog_token'", "npmAlwaysAuth": true } }'
             echo -e "\e[32m JFrog credentials configured successfully! \e[0m"
         fi
 }
