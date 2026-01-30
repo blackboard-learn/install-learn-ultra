@@ -113,6 +113,20 @@ createUserAndChangePassword() {
     createuser -s -r postgres
   fi
 
+  echo -e "\e[33m#PG Vector extension clone started\e[0m"
+  
+  git clone https://github.com/pgvector/pgvector.git &&
+  cd pgvector &&
+  make &&
+  make install &&
+
+  echo -e "\e[33m#PG Vector extension clone done\e[0m"
+  find $(pg_config --sharedir)/extension -name vector.control
+
+  echo -e "\e[33m#PG Vector extension creation in PSQL\e[0m"
+  psql -U postgres -c "create EXTENSION vector"
+  echo -e "\e[33m#PG Vector extension creation completed\e[0m"
+
   echo -e "\e[33m# Set password for the 'postgres' user in PostgreSQL\e[0m"
   psql -U postgres -c "alter user postgres PASSWORD 'postgres'"
 }
